@@ -157,7 +157,7 @@ function loop() {
 function drawLeft(ctx) {
   const { width, height } = state
 
-  ctx.lineWidth = 2
+  ctx.lineWidth = 4
   ctx.strokeStyle = "#000000"
   ctx.beginPath()
 
@@ -179,7 +179,7 @@ function drawLeft(ctx) {
 function drawRight(ctx) {
   const { width, height, status } = state
 
-  ctx.lineWidth = 2
+  ctx.lineWidth = 4
   ctx.strokeStyle = "#000000"
   ctx.beginPath()
 
@@ -200,6 +200,7 @@ function drawRight(ctx) {
   if (status !== CHECKING) return
 
   ctx.strokeStyle = "#FF0000"
+  ctx.lineWidth = 4
   ctx.beginPath()
   state.left
     .forEach(([ x, y ], index) => {
