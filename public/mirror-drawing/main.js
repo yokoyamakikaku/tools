@@ -23,10 +23,31 @@ function resize() {
   canvas.height = state.height
 }
 
-function mousedown(event) {
-  event.preventDefault()
-  state.dragging = true
+function touchstart () {
+  drawStart()
+}
 
+function mousedown () {
+  drawStart()
+}
+
+function mousemove (event) {
+  if (!state.dragging) return
+  const { offsetX, offsetY } = event
+  drag({ offsetX, offsetY })
+}
+
+function touchmove (event) {
+  event.preventDefault()
+  const { clientX, clientY, target } = event.changedTouches[0]
+  drag({
+    x: clientX - target.offsetLeft,
+    y: clientY - target.offsetTop
+  })
+}
+
+function drawStart () {
+  state.dragging = true
   switch(state.status) {
     case LEFT_READY:
       state.status = LEFT_DRAWING
@@ -38,32 +59,26 @@ function mousedown(event) {
   }
 }
 
-function mousemove(event) {
-  event.preventDefault()
-  if (state.dragging) drag(event)
-}
-
-function drag (event) {
-  event.preventDefault()
+function drag ({ x, y }) {
   const { status, width, height, left, right } = state
   switch(status) {
     case LEFT_DRAWING:
       left.push([
-        event.offsetX - width / 4,
-        event.offsetY - height / 2
+        x - width / 4,
+        y - height / 2
       ])
       break
     case RIGHT_DRAWING:
       right.push([
-        event.offsetX - width * 3 / 4,
-        event.offsetY - height / 2
+        x - width * 3 / 4,
+        y - height / 2
       ])
       break
     default:
   }
 }
 
-function mouseup() {
+function dragEnd () {
   state.dragging = false
 
   switch(state.status) {
@@ -77,18 +92,35 @@ function mouseup() {
   }
 }
 
+function mouseup() {
+  dragEnd()
+}
+
+function touchend() {
+  dragEnd()
+}
+
 function mouseout() {
-  state.dragging = false
+  dragEnd()
+}
+
+function touchout () {
+  dragEnd()
 }
 
 function init () {
   setMessage("初期化中")
   resize()
 
-  canvas.addEventListener("mouseup", mouseup)
+  canvas.addEventListener("touchstart", touchstart)
   canvas.addEventListener("mousedown", mousedown)
   canvas.addEventListener("mousemove", mousemove)
+  canvas.addEventListener("touchmove", touchmove)
+  canvas.addEventListener("mouseup", mouseup)
+  canvas.addEventListener("touchend", touchend)
   canvas.addEventListener("mouseout", mouseout)
+  canvas.addEventListener("touchout", touchout)
+
   window.addEventListener("resize", resize)
 
   reset.addEventListener("click", () => {
