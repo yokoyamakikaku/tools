@@ -1,0 +1,65 @@
+:root {
+  font-size: 16px;
+}
+
+body {
+  margin: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  /* outline: red 1px solid; */
+}
+
+.app {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  display: grid;
+  grid-template-rows: 4rem 1fr 4rem;
+  grid-template-columns: 1fr;
+
+  grid-template-areas:
+    "header"
+    "canvas"
+    "footer"
+  ;
+}
+
+
+.header {
+  grid-area: header;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  gap: 1rem;
+  border-bottom: solid 1px #000;
+}
+
+.header__order {
+  flex-grow: 1;
+  font-weight: bold;
+}
+
+.canvas {
+  grid-area: canvas;
+}
+
+.footer {
+  grid-area: footer;
+  border-top: solid 1px #000;
+  display: flex;
+  align-items: center;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.button {
+  padding: 0.25rem 1rem;
+}
