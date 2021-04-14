@@ -23,7 +23,8 @@ function resize() {
   canvas.height = state.height
 }
 
-function mousedown() {
+function mousedown(event) {
+  event.preventDefault()
   state.dragging = true
 
   switch(state.status) {
@@ -38,10 +39,12 @@ function mousedown() {
 }
 
 function mousemove(event) {
+  event.preventDefault()
   if (state.dragging) drag(event)
 }
 
 function drag (event) {
+  event.preventDefault()
   const { status, width, height, left, right } = state
   switch(status) {
     case LEFT_DRAWING:
