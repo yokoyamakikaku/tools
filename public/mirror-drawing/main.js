@@ -34,7 +34,7 @@ function mousedown () {
 function mousemove (event) {
   if (!state.dragging) return
   const { offsetX, offsetY } = event
-  drag({ offsetX, offsetY })
+  drag({ x: offsetX, y: offsetY })
 }
 
 function touchmove (event) {
@@ -218,7 +218,7 @@ function drawRight(ctx) {
 
 function drawGuid(ctx) {
   const {
-    width, height
+    width, height, status
   } = state
 
   ctx.lineWidth = 2
@@ -227,6 +227,24 @@ function drawGuid(ctx) {
   ctx.moveTo(width / 2, 0)
   ctx.lineTo(width / 2, height)
   ctx.stroke()
+
+
+  ctx.beginPath()
+  ctx.fillStyle = "rgba(0,0,0,0.5)"
+  switch(status) {
+    case LEFT_READY:
+    case LEFT_DRAWING:
+      ctx.rect(width / 2, 0, width / 2, height)
+      ctx.fill()
+    break
+    case RIGHT_READY:
+    case RIGHT_DRAWING:
+      ctx.rect(0, 0, width / 2, height)
+      ctx.fill()
+    break
+    default:
+  }
+
 }
 
 function updateOrder () {
